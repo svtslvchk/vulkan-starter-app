@@ -1,0 +1,3 @@
+/home/svtslvchk/CG/vulkan-starter-app/build/_deps/vk-bootstrap-subbuild/CMakeFiles/vk-bootstrap-populate.dir
+/home/svtslvchk/CG/vulkan-starter-app/build/_deps/vk-bootstrap-subbuild/CMakeFiles/edit_cache.dir
+/home/svtslvchk/CG/vulkan-starter-app/build/_deps/vk-bootstrap-subbuild/CMakeFiles/rebuild_cache.dir

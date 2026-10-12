@@ -1,0 +1,24 @@
+# Hashes of file build rules.
+9ada56c56cb6b225396383685c7200ea /home/svtslvchk/CG/vulkan-starter-app/shaders/shader.frag.spv
+fb4315571b6821262d9a2c6bf1bf9fe0 /home/svtslvchk/CG/vulkan-starter-app/shaders/shader.vert.spv
+88f351862a7b4b999a5bf4d5a851899f CMakeFiles/shaders
+e36db3dc251f032075ab7daed50e3b11 _deps/glfw-build/CMakeFiles/uninstall
+789dc26027ef71df9582438cfa9a37e8 _deps/glfw-build/src/CMakeFiles/update_mappings
+bf5c22e8db912eca9c6c8c07b5f50657 _deps/glfw-build/src/fractional-scale-v1-client-protocol-code.h
+036abec0d97a8d4649514181e3e4f9c6 _deps/glfw-build/src/fractional-scale-v1-client-protocol.h
+bba513c6a4ea21971ab58f19adc4e559 _deps/glfw-build/src/idle-inhibit-unstable-v1-client-protocol-code.h
+e545ebefd182e1e55eb1c6b29a08e595 _deps/glfw-build/src/idle-inhibit-unstable-v1-client-protocol.h
+d229baf6d1f453168ec2f48340244f4d _deps/glfw-build/src/pointer-constraints-unstable-v1-client-protocol-code.h
+d81cc7127c5408989efcf1ffee686017 _deps/glfw-build/src/pointer-constraints-unstable-v1-client-protocol.h
+0e79e1fe5c742e2b1ee37979b351ba6e _deps/glfw-build/src/relative-pointer-unstable-v1-client-protocol-code.h
+1b07ba8a0f10533416df6a9175256e49 _deps/glfw-build/src/relative-pointer-unstable-v1-client-protocol.h
+37d6b018e9a98519291a2dc9409bb82e _deps/glfw-build/src/viewporter-client-protocol-code.h
+f43eccb584f827be85a07cdeb044e557 _deps/glfw-build/src/viewporter-client-protocol.h
+8efd64e22c34d4931112d2539f2a990d _deps/glfw-build/src/wayland-client-protocol-code.h
+5ff516ff07920bf6014a652d53a178b8 _deps/glfw-build/src/wayland-client-protocol.h
+c519ac1acee0e7295cad67b6ed770788 _deps/glfw-build/src/xdg-activation-v1-client-protocol-code.h
+d107f0e4ea9fd1d15731cc46cc9f9690 _deps/glfw-build/src/xdg-activation-v1-client-protocol.h
+d3789c1291fb054d7eebc92c08af451f _deps/glfw-build/src/xdg-decoration-unstable-v1-client-protocol-code.h
+07c3a30e300243ac7e93d6951ccb553a _deps/glfw-build/src/xdg-decoration-unstable-v1-client-protocol.h
+806bec7cd7a967678474ef18888531d2 _deps/glfw-build/src/xdg-shell-client-protocol-code.h
+3d6af88e7fc1c1be31f41e2ed1cd8e6e _deps/glfw-build/src/xdg-shell-client-protocol.h
