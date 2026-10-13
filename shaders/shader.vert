@@ -12,6 +12,6 @@ layout(push_constant) uniform PushConstants {
 
 void main() {
     gl_Position = pc.mvp * vec4(inPosition, 1.0);
-    // Умножаем процедурный цвет вершины на цвет из ImGui ColorEdit3 (Задание 5)
+    // Умножаем процедурный цвет вершины на цвет из ImGui ColorEdit3
     fragColor = inColor * pc.objectColor;
 }
