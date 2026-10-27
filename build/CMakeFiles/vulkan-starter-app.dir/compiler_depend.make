@@ -1465,7 +1465,6 @@ CMakeFiles/vulkan-starter-app.dir/source/application.cpp.o: /home/svtslvchk/CG/v
   /usr/include/asm-generic/errno-base.h \
   /usr/include/asm-generic/errno.h \
   /usr/include/assert.h \
-  /usr/include/c++/13/array \
   /usr/include/c++/13/backward/binders.h \
   /usr/include/c++/13/bit \
   /usr/include/c++/13/bits/alloc_traits.h \
@@ -2455,8 +2454,6 @@ _deps/glm-src/glm/detail/setup.hpp:
 /usr/include/x86_64-linux-gnu/bits/types/stack_t.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/sigval_t.h:
-
-/usr/include/c++/13/array:
 
 /usr/include/x86_64-linux-gnu/bits/types/sigevent_t.h:
 

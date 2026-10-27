@@ -11,7 +11,6 @@
 #include <iostream>
 #include <cstring>
 #include <cmath>
-#include <array>
 #include <cstdint>
 #include <cstddef>
 
@@ -195,47 +194,13 @@ struct LightingState {
 
 LightingState lighting;
 
-constexpr size_t MaxPointLights = 32;
-constexpr size_t MaxSpotLights = 32;
-
-struct PointLightState {
-    glm::vec3 position{1.5f, 1.0f, 1.0f};
-    glm::vec3 color{1.0f};
-    float intensity = 2.0f;
-};
-
-struct SpotLightState {
-    glm::vec3 position{0.0f, 2.0f, 1.0f};
-    glm::vec3 direction{0.0f, -1.0f, -0.5f};
-    glm::vec3 color{1.0f};
-    float intensity = 3.0f;
-    float innerAngle = 20.0f;
-    float outerAngle = 30.0f;
-};
-
-std::vector<PointLightState> pointLights;
-std::vector<SpotLightState> spotLights;
-
 struct MaterialState {
     glm::vec3 specularColor{1.0f};
     float shininess = 32.0f;
 } material;
 
-struct alignas(16) GpuPointLight {
-    glm::vec4 positionIntensity;
-    glm::vec4 color;
-};
-
-struct alignas(16) GpuSpotLight {
-    glm::vec4 positionIntensity;
-    glm::vec4 directionInnerCos;
-    glm::vec4 colorOuterCos;
-};
-
-static_assert(sizeof(GpuPointLight) == 32);
-static_assert(sizeof(GpuSpotLight) == 48);
-
-struct alignas(16) SceneUniforms {
+struct alignas(16) Uniforms {
+    glm::mat4 model{1.0f};
     glm::mat4 viewProjection{1.0f};
     glm::vec4 cameraPosition{0.0f, 0.0f, 4.0f, 1.0f};
 
@@ -251,17 +216,11 @@ struct alignas(16) SceneUniforms {
         1.0f, 1.0f, 1.0f, 0.15f
     };
 
-    glm::uvec4 lightCounts{0u}; // x: точечные, y: прожекторы
-};
-
-struct alignas(16) ModelUniforms {
-    glm::mat4 model{1.0f};
     glm::vec4 objectColor{1.0f, 0.5f, 0.2f, 1.0f};
     glm::vec4 specularColorShininess{1.0f, 1.0f, 1.0f, 32.0f};
 };
 
-static_assert(sizeof(SceneUniforms) % 16 == 0);
-static_assert(sizeof(ModelUniforms) % 16 == 0);
+static_assert(sizeof(Uniforms) % 16 == 0);
 
 
 static VkBuffer vertexBuffer = VK_NULL_HANDLE;
@@ -280,16 +239,11 @@ struct MappedBuffer {
     void* mapped = nullptr;
 };
 
-static MappedBuffer sceneBuffer;
-static MappedBuffer modelBuffer;
-static MappedBuffer pointLightBuffer;
-static MappedBuffer spotLightBuffer;
+static MappedBuffer uniformBuffer;
 
-static VkDescriptorSetLayout sceneSetLayout = VK_NULL_HANDLE;
-static VkDescriptorSetLayout modelSetLayout = VK_NULL_HANDLE;
+static VkDescriptorSetLayout descriptorSetLayout = VK_NULL_HANDLE;
 static VkDescriptorPool descriptorPool = VK_NULL_HANDLE;
-static VkDescriptorSet sceneSet = VK_NULL_HANDLE;
-static VkDescriptorSet modelSet = VK_NULL_HANDLE;
+static VkDescriptorSet descriptorSet = VK_NULL_HANDLE;
 
 static std::vector<char> readFile(const std::string& filename) {
     std::ifstream file(filename, std::ios::ate | std::ios::binary);
@@ -366,72 +320,47 @@ static void destroyMappedBuffer(MappedBuffer& target) {
     target = {};
 }
 
-static bool createDescriptorSets() {
+static bool createDescriptorSet() {
     auto& context = graphics::internal::context;
-    const std::array<VkDescriptorSetLayoutBinding, 3> sceneBindings = {{
-        {0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 1,
-         VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT, nullptr},
-        {1, VK_DESCRIPTOR_TYPE_STORAGE_BUFFER, 1, VK_SHADER_STAGE_FRAGMENT_BIT, nullptr},
-        {2, VK_DESCRIPTOR_TYPE_STORAGE_BUFFER, 1, VK_SHADER_STAGE_FRAGMENT_BIT, nullptr}
-    }};
-    const VkDescriptorSetLayoutBinding modelBinding = {
+    const VkDescriptorSetLayoutBinding binding = {
         0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 1,
         VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT, nullptr
     };
     VkDescriptorSetLayoutCreateInfo info{};
     info.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
-    info.bindingCount = static_cast<uint32_t>(sceneBindings.size());
-    info.pBindings = sceneBindings.data();
-    if (vkCreateDescriptorSetLayout(context.device, &info, nullptr,
-                                    &sceneSetLayout) != VK_SUCCESS) return false;
     info.bindingCount = 1;
-    info.pBindings = &modelBinding;
+    info.pBindings = &binding;
     if (vkCreateDescriptorSetLayout(context.device, &info, nullptr,
-                                    &modelSetLayout) != VK_SUCCESS) return false;
+                                    &descriptorSetLayout) != VK_SUCCESS) return false;
 
-    const std::array<VkDescriptorPoolSize, 2> poolSizes = {{
-        {VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 2},
-        {VK_DESCRIPTOR_TYPE_STORAGE_BUFFER, 2}
-    }};
+    const VkDescriptorPoolSize poolSize = {VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 1};
     VkDescriptorPoolCreateInfo poolInfo{};
     poolInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
-    poolInfo.maxSets = 2;
-    poolInfo.poolSizeCount = static_cast<uint32_t>(poolSizes.size());
-    poolInfo.pPoolSizes = poolSizes.data();
+    poolInfo.maxSets = 1;
+    poolInfo.poolSizeCount = 1;
+    poolInfo.pPoolSizes = &poolSize;
     if (vkCreateDescriptorPool(context.device, &poolInfo, nullptr,
                                &descriptorPool) != VK_SUCCESS) return false;
 
-    const VkDescriptorSetLayout layouts[] = {sceneSetLayout, modelSetLayout};
-    VkDescriptorSet sets[2]{};
     VkDescriptorSetAllocateInfo allocInfo{};
     allocInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
     allocInfo.descriptorPool = descriptorPool;
-    allocInfo.descriptorSetCount = 2;
-    allocInfo.pSetLayouts = layouts;
-    if (vkAllocateDescriptorSets(context.device, &allocInfo, sets) != VK_SUCCESS)
+    allocInfo.descriptorSetCount = 1;
+    allocInfo.pSetLayouts = &descriptorSetLayout;
+    if (vkAllocateDescriptorSets(context.device, &allocInfo, &descriptorSet) != VK_SUCCESS)
         return false;
-    sceneSet = sets[0];
-    modelSet = sets[1];
 
-    const VkDescriptorBufferInfo buffers[] = {
-        {sceneBuffer.buffer, 0, sizeof(SceneUniforms)},
-        {pointLightBuffer.buffer, 0, sizeof(GpuPointLight) * MaxPointLights},
-        {spotLightBuffer.buffer, 0, sizeof(GpuSpotLight) * MaxSpotLights},
-        {modelBuffer.buffer, 0, sizeof(ModelUniforms)}
+    const VkDescriptorBufferInfo bufferInfo = {
+        uniformBuffer.buffer, 0, sizeof(Uniforms)
     };
-    std::array<VkWriteDescriptorSet, 4> writes{};
-    for (uint32_t i = 0; i < writes.size(); ++i) {
-        auto& write = writes[i];
-        write.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-        write.dstSet = i == 3 ? modelSet : sceneSet;
-        write.dstBinding = i == 3 ? 0 : i;
-        write.descriptorCount = 1;
-        write.descriptorType = (i == 1 || i == 2)
-            ? VK_DESCRIPTOR_TYPE_STORAGE_BUFFER : VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-        write.pBufferInfo = &buffers[i];
-    }
-    vkUpdateDescriptorSets(context.device, static_cast<uint32_t>(writes.size()),
-                           writes.data(), 0, nullptr);
+    VkWriteDescriptorSet write{};
+    write.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+    write.dstSet = descriptorSet;
+    write.dstBinding = 0;
+    write.descriptorCount = 1;
+    write.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+    write.pBufferInfo = &bufferInfo;
+    vkUpdateDescriptorSets(context.device, 1, &write, 0, nullptr);
     return true;
 }
 
@@ -496,17 +425,10 @@ bool initialize() {
     std::memcpy(mappedData, indices.data(), indexSize);
     vmaUnmapMemory(context.allocator, indexAllocation);
 
-    // Сцена: UBO + два SSBO; модель: отдельный UBO.
-    if (!createMappedBuffer(sizeof(SceneUniforms), VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT,
-                            sceneBuffer) ||
-        !createMappedBuffer(sizeof(ModelUniforms), VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT,
-                            modelBuffer) ||
-        !createMappedBuffer(sizeof(GpuPointLight) * MaxPointLights,
-                            VK_BUFFER_USAGE_STORAGE_BUFFER_BIT, pointLightBuffer) ||
-        !createMappedBuffer(sizeof(GpuSpotLight) * MaxSpotLights,
-                            VK_BUFFER_USAGE_STORAGE_BUFFER_BIT, spotLightBuffer) ||
-        !createDescriptorSets()) {
-        std::cerr << "Failed to initialize scene/model buffers or descriptor sets!\n";
+    if (!createMappedBuffer(sizeof(Uniforms), VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT,
+                            uniformBuffer) ||
+        !createDescriptorSet()) {
+        std::cerr << "Failed to initialize uniform buffer or descriptor set!\n";
         return false;
     }
 
@@ -665,14 +587,13 @@ bool initialize() {
     colorBlending.attachmentCount = 1;
     colorBlending.pAttachments = &colorBlendAttachment;
 
-    // Pipeline layout: set 0 = сцена, set 1 = модель.
+    // Один набор с параметрами камеры, света и материала.
     VkPipelineLayoutCreateInfo pipelineLayoutInfo{};
     pipelineLayoutInfo.sType =
         VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
 
-    const VkDescriptorSetLayout setLayouts[] = {sceneSetLayout, modelSetLayout};
-    pipelineLayoutInfo.setLayoutCount = 2;
-    pipelineLayoutInfo.pSetLayouts = setLayouts;
+    pipelineLayoutInfo.setLayoutCount = 1;
+    pipelineLayoutInfo.pSetLayouts = &descriptorSetLayout;
 
     if (vkCreatePipelineLayout(
             context.device,
@@ -742,8 +663,7 @@ void shutdown() {
         vkDestroyDescriptorPool(
             context.device, descriptorPool, nullptr);
         descriptorPool = VK_NULL_HANDLE;
-        sceneSet = VK_NULL_HANDLE;
-        modelSet = VK_NULL_HANDLE;
+        descriptorSet = VK_NULL_HANDLE;
     }
 
     if (graphicsPipeline != VK_NULL_HANDLE) {
@@ -758,19 +678,12 @@ void shutdown() {
         pipelineLayout = VK_NULL_HANDLE;
     }
 
-    if (sceneSetLayout != VK_NULL_HANDLE) {
+    if (descriptorSetLayout != VK_NULL_HANDLE) {
         vkDestroyDescriptorSetLayout(
-            context.device, sceneSetLayout, nullptr);
-        sceneSetLayout = VK_NULL_HANDLE;
+            context.device, descriptorSetLayout, nullptr);
+        descriptorSetLayout = VK_NULL_HANDLE;
     }
-    if (modelSetLayout != VK_NULL_HANDLE) {
-        vkDestroyDescriptorSetLayout(context.device, modelSetLayout, nullptr);
-        modelSetLayout = VK_NULL_HANDLE;
-    }
-    destroyMappedBuffer(sceneBuffer);
-    destroyMappedBuffer(modelBuffer);
-    destroyMappedBuffer(pointLightBuffer);
-    destroyMappedBuffer(spotLightBuffer);
+    destroyMappedBuffer(uniformBuffer);
 
     if (vertexBuffer != VK_NULL_HANDLE) {
         vmaDestroyBuffer(
@@ -918,48 +831,6 @@ void update(double time) {
 
     }
 
-    if (ImGui::CollapsingHeader("Point Lights", ImGuiTreeNodeFlags_DefaultOpen)) {
-        if (pointLights.size() < MaxPointLights && ImGui::Button("Add point light"))
-            pointLights.emplace_back();
-        ImGui::Text("%zu / %zu", pointLights.size(), MaxPointLights);
-        for (size_t i = 0; i < pointLights.size();) {
-            ImGui::PushID(static_cast<int>(i));
-            auto& light = pointLights[i];
-            ImGui::Separator();
-            ImGui::Text("Point light %zu", i + 1);
-            ImGui::DragFloat3("Position", glm::value_ptr(light.position), 0.05f);
-            ImGui::ColorEdit3("Color", glm::value_ptr(light.color));
-            ImGui::DragFloat("Intensity", &light.intensity, 0.05f, 0.0f, 100.0f);
-            const bool remove = ImGui::Button("Remove point light");
-            ImGui::PopID();
-            if (remove) pointLights.erase(pointLights.begin() + static_cast<std::ptrdiff_t>(i));
-            else ++i;
-        }
-    }
-
-    if (ImGui::CollapsingHeader("Spot Lights", ImGuiTreeNodeFlags_DefaultOpen)) {
-        if (spotLights.size() < MaxSpotLights && ImGui::Button("Add spot light"))
-            spotLights.emplace_back();
-        ImGui::Text("%zu / %zu", spotLights.size(), MaxSpotLights);
-        for (size_t i = 0; i < spotLights.size();) {
-            ImGui::PushID(static_cast<int>(i));
-            auto& light = spotLights[i];
-            ImGui::Separator();
-            ImGui::Text("Spot light %zu", i + 1);
-            ImGui::DragFloat3("Position", glm::value_ptr(light.position), 0.05f);
-            ImGui::DragFloat3("Direction", glm::value_ptr(light.direction), 0.05f);
-            ImGui::ColorEdit3("Color", glm::value_ptr(light.color));
-            ImGui::DragFloat("Intensity", &light.intensity, 0.05f, 0.0f, 100.0f);
-            ImGui::SliderFloat("Inner angle", &light.innerAngle, 0.0f, 89.0f);
-            ImGui::SliderFloat("Outer angle", &light.outerAngle, 0.0f, 89.0f);
-            light.outerAngle = glm::max(light.outerAngle, light.innerAngle);
-            const bool remove = ImGui::Button("Remove spot light");
-            ImGui::PopID();
-            if (remove) spotLights.erase(spotLights.begin() + static_cast<std::ptrdiff_t>(i));
-            else ++i;
-        }
-    }
-
     ImGui::End();
 
     const float deltaTime =
@@ -1061,7 +932,8 @@ void update(double time) {
 
     proj[1][1] *= -1.0f;
 
-    SceneUniforms uniforms{};
+    Uniforms uniforms{};
+    uniforms.model = model;
     uniforms.viewProjection = proj * view;
 
     // Нормализуем направление света
@@ -1088,39 +960,11 @@ void update(double time) {
 
     uniforms.cameraPosition =
         glm::vec4(state.cameraPos, 1.0f);
-    uniforms.lightCounts = glm::uvec4(
-        static_cast<uint32_t>(pointLights.size()),
-        static_cast<uint32_t>(spotLights.size()), 0u, 0u);
-
-    ModelUniforms modelUniforms{};
-    modelUniforms.model = model;
-    modelUniforms.objectColor = glm::vec4(state.objectColor, 1.0f);
-    modelUniforms.specularColorShininess =
+    uniforms.objectColor = glm::vec4(state.objectColor, 1.0f);
+    uniforms.specularColorShininess =
         glm::vec4(material.specularColor, material.shininess);
 
-    std::array<GpuPointLight, MaxPointLights> gpuPoints{};
-    for (size_t i = 0; i < pointLights.size(); ++i) {
-        gpuPoints[i].positionIntensity =
-            glm::vec4(pointLights[i].position, pointLights[i].intensity);
-        gpuPoints[i].color = glm::vec4(pointLights[i].color, 1.0f);
-    }
-    std::array<GpuSpotLight, MaxSpotLights> gpuSpots{};
-    for (size_t i = 0; i < spotLights.size(); ++i) {
-        const auto& light = spotLights[i];
-        const float directionLength = glm::length(light.direction);
-        const glm::vec3 direction = directionLength > 0.0001f
-            ? light.direction / directionLength : glm::vec3(0.0f, -1.0f, 0.0f);
-        gpuSpots[i].positionIntensity = glm::vec4(light.position, light.intensity);
-        gpuSpots[i].directionInnerCos =
-            glm::vec4(direction, std::cos(glm::radians(light.innerAngle)));
-        gpuSpots[i].colorOuterCos =
-            glm::vec4(light.color, std::cos(glm::radians(light.outerAngle)));
-    }
-
-    writeMappedBuffer(sceneBuffer, &uniforms, sizeof(uniforms));
-    writeMappedBuffer(modelBuffer, &modelUniforms, sizeof(modelUniforms));
-    writeMappedBuffer(pointLightBuffer, gpuPoints.data(), sizeof(gpuPoints));
-    writeMappedBuffer(spotLightBuffer, gpuSpots.data(), sizeof(gpuSpots));
+    writeMappedBuffer(uniformBuffer, &uniforms, sizeof(uniforms));
 }
 
 
@@ -1168,14 +1012,13 @@ void render(const graphics::internal::FrameData& fd) {
 
     vkCmdBindPipeline(fd.command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipeline);
 
-    const VkDescriptorSet sets[] = {sceneSet, modelSet};
     vkCmdBindDescriptorSets(
         fd.command_buffer,
         VK_PIPELINE_BIND_POINT_GRAPHICS,
         pipelineLayout,
         0,
-        2,
-        sets,
+        1,
+        &descriptorSet,
         0,
         nullptr
     );
