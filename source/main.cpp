@@ -25,6 +25,7 @@ GLFWwindow* glfw_window;
 
 int main() {
 	int status = EXIT_SUCCESS;
+	double previousTime = 0.0;
 
 	if (!glfwInit()) {
 		std::cerr << "Failed to initialize GLFW\n";
@@ -68,21 +69,26 @@ int main() {
 
 	if (!application::initialize()) {
 		std::cerr << "Failed to initialize application\n";
+		application::shutdown();
 		status = EXIT_FAILURE;
 		goto err_application_init;
 	}
 
+	previousTime = glfwGetTime();
 	while (!glfwWindowShouldClose(glfw_window)) {
-		const double time = glfwGetTime();
+		const double now = glfwGetTime();
+		const double deltaTime = now - previousTime;
+		previousTime = now;
 
 		glfwPollEvents();
+		// prepare() ждёт завершения прошлого кадра до записи общих буферов.
+		graphics::internal::FrameData fd = graphics::internal::prepare();
 		ImGui_ImplGlfw_NewFrame();
 
 		ImGui::NewFrame();
-		application::update(time);
+		application::update(deltaTime);
 		ImGui::Render();
 
-		graphics::internal::FrameData fd = graphics::internal::prepare();
 		application::render(fd);
 		graphics::internal::submitAndPresent();
 	}
@@ -99,5 +105,5 @@ err_imgui_init:
 err_null_window:
 	glfwTerminate();
 
-	return 0;
+	return status;
 }
