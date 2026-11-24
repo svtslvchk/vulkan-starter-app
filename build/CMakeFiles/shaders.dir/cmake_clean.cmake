@@ -1,6 +1,7 @@
 file(REMOVE_RECURSE
   "/home/svtslvchk/CG/vulkan-starter-app/shaders/shader.frag.spv"
   "/home/svtslvchk/CG/vulkan-starter-app/shaders/shader.vert.spv"
+  "/home/svtslvchk/CG/vulkan-starter-app/shaders/shadow.vert.spv"
   "CMakeFiles/shaders"
 )
 

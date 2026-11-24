@@ -6,5 +6,5 @@ CXX_DEFINES =
 
 CXX_INCLUDES = -I/home/svtslvchk/CG/vulkan-starter-app/build/_deps/imgui-src -I/home/svtslvchk/CG/vulkan-starter-app/build/_deps/imgui-src/backends -I/home/svtslvchk/CG/vulkan-starter-app/build/_deps/glfw-src/include -I/home/svtslvchk/CG/vulkan-starter-app/build/_deps/vk-bootstrap-src/src -I/home/svtslvchk/CG/vulkan-starter-app/build/_deps/vulkanmemoryallocator-src/include -I/home/svtslvchk/CG/vulkan-starter-app/build/_deps/glm-src
 
-CXX_FLAGS = -std=gnu++20 -Wall -Wextra -Wno-missing-field-initializers
+CXX_FLAGS = -O3 -DNDEBUG -std=gnu++20 -Wall -Wextra -Wno-missing-field-initializers
 

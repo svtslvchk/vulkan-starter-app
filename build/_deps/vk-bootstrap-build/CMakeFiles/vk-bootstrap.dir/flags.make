@@ -6,5 +6,5 @@ CXX_DEFINES =
 
 CXX_INCLUDES = -I/home/svtslvchk/CG/vulkan-starter-app/build/_deps/vk-bootstrap-src/src
 
-CXX_FLAGS = -Wall -Wextra -Wconversion -Wsign-conversion
+CXX_FLAGS = -O3 -DNDEBUG -Wall -Wextra -Wconversion -Wsign-conversion
 

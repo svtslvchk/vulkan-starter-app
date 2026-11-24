@@ -1459,14 +1459,17 @@ CMakeFiles/vulkan-starter-app.dir/source/application.cpp.o: /home/svtslvchk/CG/v
   _deps/imgui-src/imconfig.h \
   _deps/imgui-src/imgui.h \
   _deps/vulkanmemoryallocator-src/include/vk_mem_alloc.h \
+  /home/svtslvchk/CG/vulkan-starter-app/third_party/stb_image.h \
   /home/svtslvchk/CG/vulkan-starter-app/source/application.hpp \
   /home/svtslvchk/CG/vulkan-starter-app/source/graphics_internal.hpp \
   /usr/include/alloca.h \
   /usr/include/asm-generic/errno-base.h \
   /usr/include/asm-generic/errno.h \
   /usr/include/assert.h \
+  /usr/include/c++/13/array \
   /usr/include/c++/13/backward/binders.h \
   /usr/include/c++/13/bit \
+  /usr/include/c++/13/bits/algorithmfwd.h \
   /usr/include/c++/13/bits/alloc_traits.h \
   /usr/include/c++/13/bits/allocator.h \
   /usr/include/c++/13/bits/basic_ios.h \
@@ -1480,6 +1483,8 @@ CMakeFiles/vulkan-starter-app.dir/source/application.cpp.o: /home/svtslvchk/CG/v
   /usr/include/c++/13/bits/cpp_type_traits.h \
   /usr/include/c++/13/bits/cxxabi_forced.h \
   /usr/include/c++/13/bits/cxxabi_init_exception.h \
+  /usr/include/c++/13/bits/enable_special_members.h \
+  /usr/include/c++/13/bits/erase_if.h \
   /usr/include/c++/13/bits/exception.h \
   /usr/include/c++/13/bits/exception_defines.h \
   /usr/include/c++/13/bits/exception_ptr.h \
@@ -1487,6 +1492,8 @@ CMakeFiles/vulkan-starter-app.dir/source/application.cpp.o: /home/svtslvchk/CG/v
   /usr/include/c++/13/bits/functexcept.h \
   /usr/include/c++/13/bits/functional_hash.h \
   /usr/include/c++/13/bits/hash_bytes.h \
+  /usr/include/c++/13/bits/hashtable.h \
+  /usr/include/c++/13/bits/hashtable_policy.h \
   /usr/include/c++/13/bits/invoke.h \
   /usr/include/c++/13/bits/ios_base.h \
   /usr/include/c++/13/bits/istream.tcc \
@@ -1502,6 +1509,7 @@ CMakeFiles/vulkan-starter-app.dir/source/application.cpp.o: /home/svtslvchk/CG/v
   /usr/include/c++/13/bits/move.h \
   /usr/include/c++/13/bits/nested_exception.h \
   /usr/include/c++/13/bits/new_allocator.h \
+  /usr/include/c++/13/bits/node_handle.h \
   /usr/include/c++/13/bits/ostream.tcc \
   /usr/include/c++/13/bits/ostream_insert.h \
   /usr/include/c++/13/bits/postypes.h \
@@ -1515,20 +1523,26 @@ CMakeFiles/vulkan-starter-app.dir/source/application.cpp.o: /home/svtslvchk/CG/v
   /usr/include/c++/13/bits/requires_hosted.h \
   /usr/include/c++/13/bits/specfun.h \
   /usr/include/c++/13/bits/std_abs.h \
+  /usr/include/c++/13/bits/std_function.h \
+  /usr/include/c++/13/bits/stl_algo.h \
   /usr/include/c++/13/bits/stl_algobase.h \
   /usr/include/c++/13/bits/stl_bvector.h \
   /usr/include/c++/13/bits/stl_construct.h \
   /usr/include/c++/13/bits/stl_function.h \
+  /usr/include/c++/13/bits/stl_heap.h \
   /usr/include/c++/13/bits/stl_iterator.h \
   /usr/include/c++/13/bits/stl_iterator_base_funcs.h \
   /usr/include/c++/13/bits/stl_iterator_base_types.h \
   /usr/include/c++/13/bits/stl_pair.h \
+  /usr/include/c++/13/bits/stl_tempbuf.h \
   /usr/include/c++/13/bits/stl_uninitialized.h \
   /usr/include/c++/13/bits/stl_vector.h \
   /usr/include/c++/13/bits/streambuf.tcc \
   /usr/include/c++/13/bits/streambuf_iterator.h \
   /usr/include/c++/13/bits/string_view.tcc \
   /usr/include/c++/13/bits/stringfwd.h \
+  /usr/include/c++/13/bits/uniform_int_dist.h \
+  /usr/include/c++/13/bits/unordered_map.h \
   /usr/include/c++/13/bits/uses_allocator.h \
   /usr/include/c++/13/bits/uses_allocator_args.h \
   /usr/include/c++/13/bits/utility.h \
@@ -1552,23 +1566,27 @@ CMakeFiles/vulkan-starter-app.dir/source/application.cpp.o: /home/svtslvchk/CG/v
   /usr/include/c++/13/debug/assertions.h \
   /usr/include/c++/13/debug/debug.h \
   /usr/include/c++/13/exception \
+  /usr/include/c++/13/ext/aligned_buffer.h \
   /usr/include/c++/13/ext/alloc_traits.h \
   /usr/include/c++/13/ext/atomicity.h \
   /usr/include/c++/13/ext/numeric_traits.h \
   /usr/include/c++/13/ext/string_conversions.h \
   /usr/include/c++/13/ext/type_traits.h \
   /usr/include/c++/13/fstream \
+  /usr/include/c++/13/functional \
   /usr/include/c++/13/initializer_list \
   /usr/include/c++/13/ios \
   /usr/include/c++/13/iosfwd \
   /usr/include/c++/13/iostream \
   /usr/include/c++/13/istream \
   /usr/include/c++/13/limits \
+  /usr/include/c++/13/math.h \
   /usr/include/c++/13/new \
   /usr/include/c++/13/numbers \
   /usr/include/c++/13/ostream \
   /usr/include/c++/13/pstl/pstl_config.h \
   /usr/include/c++/13/stdexcept \
+  /usr/include/c++/13/stdlib.h \
   /usr/include/c++/13/streambuf \
   /usr/include/c++/13/string \
   /usr/include/c++/13/string_view \
@@ -1588,6 +1606,7 @@ CMakeFiles/vulkan-starter-app.dir/source/application.cpp.o: /home/svtslvchk/CG/v
   /usr/include/c++/13/tuple \
   /usr/include/c++/13/type_traits \
   /usr/include/c++/13/typeinfo \
+  /usr/include/c++/13/unordered_map \
   /usr/include/c++/13/vector \
   /usr/include/ctype.h \
   /usr/include/endian.h \
@@ -1718,12 +1737,16 @@ CMakeFiles/vulkan-starter-app.dir/source/application.cpp.o: /home/svtslvchk/CG/v
   /usr/include/x86_64-linux-gnu/sys/select.h \
   /usr/include/x86_64-linux-gnu/sys/single_threaded.h \
   /usr/include/x86_64-linux-gnu/sys/types.h \
+  /usr/lib/gcc/x86_64-linux-gnu/13/include/emmintrin.h \
   /usr/lib/gcc/x86_64-linux-gnu/13/include/float.h \
   /usr/lib/gcc/x86_64-linux-gnu/13/include/limits.h \
+  /usr/lib/gcc/x86_64-linux-gnu/13/include/mm_malloc.h \
+  /usr/lib/gcc/x86_64-linux-gnu/13/include/mmintrin.h \
   /usr/lib/gcc/x86_64-linux-gnu/13/include/stdarg.h \
   /usr/lib/gcc/x86_64-linux-gnu/13/include/stddef.h \
   /usr/lib/gcc/x86_64-linux-gnu/13/include/stdint.h \
-  /usr/lib/gcc/x86_64-linux-gnu/13/include/syslimits.h
+  /usr/lib/gcc/x86_64-linux-gnu/13/include/syslimits.h \
+  /usr/lib/gcc/x86_64-linux-gnu/13/include/xmmintrin.h
 
 CMakeFiles/vulkan-starter-app.dir/source/graphics_internal.cpp.o: /home/svtslvchk/CG/vulkan-starter-app/source/graphics_internal.cpp \
   _deps/glfw-src/include/GLFW/glfw3.h \
@@ -2261,13 +2284,7 @@ CMakeFiles/vulkan-starter-app.dir/source/main.cpp.o: /home/svtslvchk/CG/vulkan-s
 
 /usr/include/c++/13/cinttypes:
 
-/usr/include/c++/13/bits/uniform_int_dist.h:
-
-/usr/include/c++/13/bits/stl_tempbuf.h:
-
 /usr/include/c++/13/bits/stl_relops.h:
-
-/usr/include/c++/13/bits/stl_algo.h:
 
 /usr/include/c++/13/bits/std_mutex.h:
 
@@ -2281,15 +2298,7 @@ CMakeFiles/vulkan-starter-app.dir/source/main.cpp.o: /home/svtslvchk/CG/vulkan-s
 
 /usr/include/c++/13/bits/atomic_wait.h:
 
-/usr/include/syscall.h:
-
-/usr/include/c++/13/bits/stl_heap.h:
-
-/usr/include/c++/13/bits/atomic_lockfree_defines.h:
-
 /usr/include/c++/13/bits/atomic_base.h:
-
-/usr/include/c++/13/bits/algorithmfwd.h:
 
 /usr/include/c++/13/atomic:
 
@@ -2308,8 +2317,6 @@ _deps/vk-bootstrap-src/src/VkBootstrap.h:
 /usr/include/x86_64-linux-gnu/bits/syscall.h:
 
 /usr/include/x86_64-linux-gnu/c++/13/bits/c++io.h:
-
-/usr/include/x86_64-linux-gnu/c++/13/bits/c++allocator.h:
 
 /usr/include/x86_64-linux-gnu/c++/13/bits/basic_file.h:
 
@@ -2335,6 +2342,8 @@ _deps/vk-bootstrap-src/src/VkBootstrap.h:
 
 /usr/include/c++/13/vector:
 
+/usr/include/c++/13/unordered_map:
+
 /usr/include/c++/13/typeinfo:
 
 /usr/include/c++/13/string_view:
@@ -2347,7 +2356,13 @@ _deps/vk-bootstrap-src/src/VkBootstrap.h:
 
 /usr/include/c++/13/initializer_list:
 
+/usr/include/c++/13/functional:
+
 /usr/include/c++/13/ext/string_conversions.h:
+
+/usr/include/x86_64-linux-gnu/c++/13/bits/c++allocator.h:
+
+/usr/include/c++/13/ext/aligned_buffer.h:
 
 /usr/include/c++/13/exception:
 
@@ -2365,11 +2380,39 @@ _deps/vk-bootstrap-src/src/VkBootstrap.h:
 
 /usr/include/c++/13/bits/uses_allocator.h:
 
+/usr/include/c++/13/bits/unordered_map.h:
+
+/usr/include/c++/13/bits/uniform_int_dist.h:
+
 /usr/include/c++/13/cerrno:
 
 /usr/include/c++/13/bits/stringfwd.h:
 
 /usr/include/c++/13/bits/streambuf_iterator.h:
+
+/usr/include/c++/13/bits/stl_uninitialized.h:
+
+/usr/include/c++/13/bits/stl_tempbuf.h:
+
+/usr/include/syscall.h:
+
+/usr/include/c++/13/bits/atomic_lockfree_defines.h:
+
+/usr/include/c++/13/bits/stl_heap.h:
+
+/usr/include/c++/13/bits/stl_function.h:
+
+/usr/include/c++/13/bits/stl_bvector.h:
+
+/usr/include/c++/13/bits/stl_algo.h:
+
+/usr/include/c++/13/bits/std_function.h:
+
+/usr/include/c++/13/bits/refwrap.h:
+
+/usr/include/c++/13/bits/ranges_util.h:
+
+/usr/include/c++/13/bits/ranges_base.h:
 
 /usr/lib/gcc/x86_64-linux-gnu/13/include/clwbintrin.h:
 
@@ -2391,8 +2434,6 @@ _deps/glm-src/glm/ext/vector_int2.hpp:
 
 /usr/include/c++/13/bits/locale_facets.h:
 
-/usr/include/x86_64-linux-gnu/gnu/stubs.h:
-
 _deps/glm-src/glm/detail/type_mat4x2.hpp:
 
 /usr/lib/gcc/x86_64-linux-gnu/13/include/avx512vbmi2vlintrin.h:
@@ -2402,8 +2443,6 @@ _deps/glm-src/glm/detail/type_mat4x2.hpp:
 /usr/include/c++/13/tr1/modified_bessel_func.tcc:
 
 /usr/lib/gcc/x86_64-linux-gnu/13/include/limits.h:
-
-/usr/include/c++/13/bits/ranges_base.h:
 
 /usr/lib/gcc/x86_64-linux-gnu/13/include/avx512ifmaintrin.h:
 
@@ -2454,6 +2493,8 @@ _deps/glm-src/glm/detail/setup.hpp:
 /usr/include/x86_64-linux-gnu/bits/types/stack_t.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/sigval_t.h:
+
+/usr/include/c++/13/array:
 
 /usr/include/x86_64-linux-gnu/bits/types/sigevent_t.h:
 
@@ -2647,6 +2688,8 @@ _deps/glm-src/glm/gtc/quaternion.hpp:
 
 _deps/glm-src/glm/ext/quaternion_float.hpp:
 
+/usr/include/c++/13/bits/algorithmfwd.h:
+
 /usr/include/x86_64-linux-gnu/bits/types/__sigset_t.h:
 
 /usr/lib/gcc/x86_64-linux-gnu/13/include/avx512erintrin.h:
@@ -2755,6 +2798,8 @@ _deps/imgui-src/imstb_textedit.h:
 
 /usr/lib/gcc/x86_64-linux-gnu/13/include/avx512dqintrin.h:
 
+/usr/include/c++/13/bits/enable_special_members.h:
+
 /usr/include/linux/limits.h:
 
 _deps/glm-src/glm/ext/vector_double2_precision.hpp:
@@ -2796,6 +2841,12 @@ _deps/glm-src/glm/mat4x2.hpp:
 /usr/lib/gcc/x86_64-linux-gnu/13/include/avx512bwintrin.h:
 
 /usr/include/x86_64-linux-gnu/bits/local_lim.h:
+
+/usr/include/c++/13/bits/node_handle.h:
+
+/usr/include/c++/13/bits/stl_vector.h:
+
+/usr/include/x86_64-linux-gnu/bits/getopt_core.h:
 
 /usr/include/X11/extensions/randr.h:
 
@@ -2890,8 +2941,6 @@ _deps/glm-src/glm/gtc/constants.hpp:
 /usr/include/x86_64-linux-gnu/bits/wchar.h:
 
 /usr/include/X11/extensions/Xrandr.h:
-
-_deps/glm-src/glm/ext/matrix_projection.inl:
 
 _deps/glm-src/glm/vec3.hpp:
 
@@ -3065,8 +3114,6 @@ _deps/glm-src/glm/glm.hpp:
 
 /usr/include/c++/13/bits/new_allocator.h:
 
-/usr/include/c++/13/bits/stl_uninitialized.h:
-
 /usr/lib/gcc/x86_64-linux-gnu/13/include/wmmintrin.h:
 
 /usr/lib/gcc/x86_64-linux-gnu/13/include/x86gprintrin.h:
@@ -3162,8 +3209,6 @@ _deps/glm-src/glm/ext/matrix_double3x4_precision.hpp:
 _deps/glm-src/glm/ext/vector_bool4_precision.hpp:
 
 _deps/glm-src/glm/ext/quaternion_transform.inl:
-
-/usr/include/c++/13/bits/stl_bvector.h:
 
 /usr/include/c++/13/numbers:
 
@@ -3275,8 +3320,6 @@ _deps/glm-src/glm/mat2x3.hpp:
 
 _deps/glm-src/glm/mat2x4.hpp:
 
-/usr/include/c++/13/bits/ranges_util.h:
-
 _deps/glm-src/glm/mat3x2.hpp:
 
 _deps/glm-src/glm/mat3x3.hpp:
@@ -3385,6 +3428,8 @@ _deps/imgui-src/imstb_truetype.h:
 
 _deps/glm-src/glm/gtc/constants.inl:
 
+/home/svtslvchk/CG/vulkan-starter-app/third_party/stb_image.h:
+
 /usr/lib/gcc/x86_64-linux-gnu/13/include/gfniintrin.h:
 
 _deps/glm-src/glm/ext/matrix_projection.hpp:
@@ -3404,6 +3449,10 @@ _deps/glm-src/glm/ext/quaternion_relational.hpp:
 /usr/include/c++/13/bits/stl_construct.h:
 
 _deps/glm-src/glm/detail/type_quat.hpp:
+
+/usr/include/x86_64-linux-gnu/gnu/stubs.h:
+
+/usr/include/c++/13/bits/erase_if.h:
 
 _deps/glm-src/glm/ext/quaternion_geometric.hpp:
 
@@ -3491,6 +3540,12 @@ _deps/vulkanmemoryallocator-src/include/vk_mem_alloc.h:
 
 /usr/include/c++/13/bits/hash_bytes.h:
 
+/usr/include/c++/13/bits/hashtable.h:
+
+_deps/glm-src/glm/ext/matrix_projection.inl:
+
+/usr/include/c++/13/bits/hashtable_policy.h:
+
 /usr/include/c++/13/bits/invoke.h:
 
 /usr/include/c++/13/bits/ios_base.h:
@@ -3522,11 +3577,3 @@ _deps/glm-src/glm/ext/vector_float1_precision.hpp:
 /usr/include/c++/13/system_error:
 
 /usr/include/c++/13/bits/ostream_insert.h:
-
-/usr/include/c++/13/bits/refwrap.h:
-
-/usr/include/c++/13/bits/stl_function.h:
-
-/usr/include/x86_64-linux-gnu/bits/getopt_core.h:
-
-/usr/include/c++/13/bits/stl_vector.h:

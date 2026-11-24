@@ -68,6 +68,7 @@ include CMakeFiles/shaders.dir/progress.make
 
 CMakeFiles/shaders: /home/svtslvchk/CG/vulkan-starter-app/shaders/shader.vert.spv
 CMakeFiles/shaders: /home/svtslvchk/CG/vulkan-starter-app/shaders/shader.frag.spv
+CMakeFiles/shaders: /home/svtslvchk/CG/vulkan-starter-app/shaders/shadow.vert.spv
 
 /home/svtslvchk/CG/vulkan-starter-app/shaders/shader.frag.spv: /home/svtslvchk/CG/vulkan-starter-app/shaders/shader.frag
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/home/svtslvchk/CG/vulkan-starter-app/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Compiling shader.frag shader"
@@ -77,9 +78,14 @@ CMakeFiles/shaders: /home/svtslvchk/CG/vulkan-starter-app/shaders/shader.frag.sp
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/home/svtslvchk/CG/vulkan-starter-app/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Compiling shader.vert shader"
 	glslc /home/svtslvchk/CG/vulkan-starter-app/shaders/shader.vert -o /home/svtslvchk/CG/vulkan-starter-app/shaders/shader.vert.spv
 
+/home/svtslvchk/CG/vulkan-starter-app/shaders/shadow.vert.spv: /home/svtslvchk/CG/vulkan-starter-app/shaders/shadow.vert
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/home/svtslvchk/CG/vulkan-starter-app/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Compiling shadow.vert shader"
+	glslc /home/svtslvchk/CG/vulkan-starter-app/shaders/shadow.vert -o /home/svtslvchk/CG/vulkan-starter-app/shaders/shadow.vert.spv
+
 shaders: CMakeFiles/shaders
 shaders: /home/svtslvchk/CG/vulkan-starter-app/shaders/shader.frag.spv
 shaders: /home/svtslvchk/CG/vulkan-starter-app/shaders/shader.vert.spv
+shaders: /home/svtslvchk/CG/vulkan-starter-app/shaders/shadow.vert.spv
 shaders: CMakeFiles/shaders.dir/build.make
 .PHONY : shaders
 

@@ -6,5 +6,5 @@ CXX_DEFINES =
 
 CXX_INCLUDES = -I/home/svtslvchk/CG/vulkan-starter-app/build/_deps/glm-src
 
-CXX_FLAGS = 
+CXX_FLAGS = -O3 -DNDEBUG
 
